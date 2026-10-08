@@ -1,0 +1,124 @@
+@model HelpDeskMvc.Models.Filme
+
+@{
+    ViewData["Title"] = "Adicionar Filme - MOLTEN";
+}
+
+
+<style>
+    body {
+        background-color: #141414;
+        color: #ffffff;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    .bg-molten-card {
+        background-color: #181818;
+        border: 1px solid #282828;
+        border-radius: 8px;
+    }
+    .form-control-molten {
+        background-color: #2a2a2a;
+        border: 1px solid #404040;
+        color: #ffffff;
+    }
+    .form-control-molten:focus {
+        border-color: #E50914;
+        box-shadow: 0 0 0 0.25rem rgba(229, 9, 20, 0.4) ;
+        background-color: #333333 ;
+    }
+    .form-control-molten::placeholder {
+        color: #777777;
+    }
+    .btn-molten-primary {
+        background-color: #E50914;
+        border: none;
+        color: white;
+        font-weight: bold;
+        transition: background-color 0.2s ease;
+    }
+    .btn-molten-primary:hover {
+        background-color: #b80710;
+        color: white;
+    }
+    .btn-molten-secondary {
+        background-color: transparent;
+        border: 1px solid #777777;
+        color: #aaaaaa;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    .btn-molten-secondary:hover {
+        background-color: #2a2a2a;
+        border-color: #ffffff;
+        color: #ffffff;
+    }
+    .text-molten-brand {
+        color: #E50914;
+        font-weight: 900;
+        letter-spacing: 2px;
+    }
+    .text-danger {
+        color: #E50914;
+    }
+</style>
+
+<div class="container mt-5">
+
+    <!-- Cabeçalho do Painel com a marca do projeto -->
+    <div class="mb-4 text-center text-md-start d-md-flex align-items-center justify-content-between border-bottom border-secondary pb-3">
+        <div>
+            <h1 class="fw-bold mb-1"><span class="text-molten-brand">MOLTEN</span> <span class="text-white">| Adicionar Filme</span></h1>
+            <p class="text-white mb-0">
+                Preencha as informações abaixo para registrar um novo título no catálogo de streaming.
+            </p>
+        </div>
+    </div>
+
+    <!-- Card de Cadastro Dark -->
+    <div class="card bg-molten-card shadow-lg border-0">
+        <div class="card-body p-4 p-md-5">
+
+            <form asp-action="Create" method="post">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+                <!-- Campo de Título -->
+                <div class="mb-4">
+                    <label asp-for="Titulo" class="form-label fw-semibold text-secondary"></label>
+                    <input asp-for="Titulo"
+                           class="form-control form-control-molten py-2"
+                           placeholder="Ex: Star Wars: O Despertar da Força" />
+                    <span asp-validation-for="Titulo" class="text-danger small mt-1 d-block"></span>
+                </div>
+
+                <!-- Campo de Descrição / Sinopse -->
+                <div class="mb-4">
+                    <label asp-for="Descricao" class="form-label fw-semibold text-secondary">Sinopse do Filme</label>
+                    <textarea asp-for="Descricao"
+                              class="form-control form-control-molten"
+                              rows="5"
+                              placeholder="Descreva a sinopse e detalhes do Filme..."></textarea>
+                    <span asp-validation-for="Descricao" class="text-danger small mt-1 d-block"></span>
+                </div>
+
+                <!-- Botões de Ação reposicionados e estilizados -->
+                <div class="d-flex gap-2 justify-content-end border-top border-secondary pt-4 mt-4">
+                    <a asp-action="Index" class="btn btn-molten-secondary px-4 py-2">
+                        Cancelar
+                    </a>
+                    
+                    <button type="submit" class="btn btn-molten-primary px-4 py-2 shadow">
+                        Adicionar Filme
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

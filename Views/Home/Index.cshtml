@@ -1,0 +1,165 @@
+﻿@model HelpDeskMvc.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "MOLTEN";
+}
+<style>
+body {
+    background-color: #141414;
+    color: #f5f5f5;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.bg-molten-dark {
+    background-color: #181818;
+    color: #f5f5f5;
+    border: 1px solid #282828;
+}
+
+.list-group-item-molten-dark {
+    background-color: #181818;
+    color: #f5f5f5;
+    border: none; 
+    border-bottom: 1px solid #282828;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.list-group-item-molten-dark:hover {
+    background-color: #363636;
+    color: #f5f5f5;
+}
+</style>
+
+<div class="container mt-5">
+
+    <!-- HERO -->
+    <div class="p-5 mb-4 bg-dark rounded-4">
+        <div class="container-fluid py-2">
+            <h1 class="display-6 fw-bold mb-3">
+                Bem-vindo ao<span class="text-danger"> MOLTEN</span>
+            </h1>
+
+            <p class="col-md-8 fs-5 text-secondary">
+                A MOLTEN é uma plataforma de streaming de filmes e séries que oferece 
+                uma ampla variedade de conteúdo para os usuários assistirem online. 
+            </p>
+
+            <div class="d-flex gap-2 mt-4">
+               
+                <a asp-controller="Filmes"
+                   asp-action="Index"
+                   class="btn btn-danger btn-lg px-4">
+                    Ver Filmes
+                </a>
+
+               
+                @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Filmes"
+                       asp-action="Create"
+                       class="btn btn-outline-light btn-lg px-4">
+                        Adicionar Filme
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="card bg-molten-dark shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-white">Todos os Filmes</small>
+                    <h2 class="fw-bold mt-2">@Model.Total</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-molten-dark shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-white">Filmes em Cartaz</small>
+                    <h2 class="fw-bold text-success mt-2">@Model.Abertos</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-molten-dark shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-white">Em lançamento</small>
+                    <h2 class="fw-bold text-warning mt-2">@Model.EmAndamento</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-molten-dark shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-white">Filmes Lançados</small>
+                    <h2 class="fw-bold text-primary mt-2">@Model.Resolvidos</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÚLTIMOS FILMES -->
+    <div class="card bg-molten-dark shadow">
+        <div class="card-header bg-transparent border-bottom border-secondary pt-4 pb-2">
+            <h5 class="fw-bold mb-0 text-danger">Ultimos Filmes</h5>
+        </div>
+
+        <div class="card-body">
+            @if (!Model.UltimosChamados.Any())
+            {
+                <div class="text-center text-muted py-4">
+                    <p class="mb-3 text-white">Nenhum Filme cadastrado ainda</p>
+
+                  
+                    @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Filmes"
+                           asp-action="Create"
+                           class="btn btn-sm btn-danger">
+                            Adicionar 1° Filme Da Molten
+                        </a>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="list-group list-group-flush">
+                    @foreach (var chamado in Model.UltimosChamados)
+                    {
+                        var badge = chamado.Status switch
+                        {
+                            "Nos Cinemas" => "bg-success-subtle text-success",
+                            " Em lançamento" => "bg-warning-subtle text-warning",
+                            "Filmes Lançados" => "bg-primary-subtle text-primary",
+                            _ => "bg-secondary-subtle text-secondary"
+                        };
+
+                        <a asp-controller="Filmes"
+                           asp-action="Detalhes"
+                           asp-route-id="@chamado.Id"
+                           class="list-group-item list-group-item-molten-dark px-0">
+
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="fw-semibold">@chamado.Titulo</div>
+                                    <small class="text-secondary">
+                                        Lançado em @chamado.DataAbertura.ToString("dd/MM/yyyy HH:mm")
+                                    </small>
+                                </div>
+                                <span class="badge @badge align-self-start">
+                                    @(chamado.Status ?? "Sem status")
+                                </span>
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,203 @@
+@model HelpDeskMvc.Models.Filme
+
+@{
+    ViewData["Title"] = $"{Model.Titulo} - MOLTEN";
+}
+
+<style>
+    body {
+        background-color: #141414;
+        color: #ffffff;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    
+    
+    .molten-details-wrapper {
+        background: linear-gradient(180deg, rgba(118, 26, 26, 0.2) 0%, #141414 100%);
+        border-radius: 12px;
+        padding: 3rem 0;
+    }
+
+    
+    .molten-poster-fallback {
+        width: 100%;
+        max-width: 340px;
+        height: 480px;
+        background: linear-gradient(135deg, #1f1f1f 0%, #0d0d0d 100%);
+        border: 1px solid #282828;
+        border-radius: 8px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .molten-poster-fallback:hover {
+        transform: scale(1.02);
+        box-shadow: 0 15px 35px rgba(229, 9, 20, 0.25);
+        border-color: #E50914;
+    }
+
+    .molten-poster-fallback::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(229, 9, 20, 0.08) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+   
+    .text-molten-brand {
+        color: #E50914;
+        font-weight: 900;
+        letter-spacing: 2px;
+    }
+
+    .text-shadow-large {
+        text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+    }
+
+    
+    .btn-molten-play {
+        background-color: #ffffff;
+        color: #000000;
+        font-weight: bold;
+        border: none;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-molten-play:hover {
+        background-color: rgba(255, 255, 255, 0.75);
+        color: #000000;
+        transform: scale(1.03);
+    }
+
+    .btn-molten-outline {
+        background-color: rgba(42, 42, 42, 0.6);
+        border: 1px solid #777777;
+        color: #aaaaaa;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .btn-molten-outline:hover {
+        background-color: #2a2a2a;
+        border-color: #ffffff;
+        color: #ffffff;
+    }
+
+    .btn-molten-primary {
+        background-color: #3e3b3b;
+        color: #fdfdfd;
+        font-weight: bold;
+        border: none;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+    .btn-molten-primary:hover {
+        background-color: #2a2a2a;
+        border-color: #ffffff;
+        color: #ffffff;
+    }
+        .btn-molten-primary:focus {
+        background-color: #ffffff;
+        color: #000000;
+        font-weight: bold;
+        border: none;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+   /* Animação pequena de entrada em uma pagina (Posso usar em outro Projeto)*/
+    .fade-in-up {
+        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @@keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0px); }
+    }
+</style>
+
+<div class="container mt-5 fade-in-up">
+
+    <div class="mb-4">
+        <button class="btn btn-molten-primary" onclick="window.history.back();">
+            <i class="bi bi-arrow-left"></i> Voltar ao Catálogo
+        </button>    
+    </div>
+
+    <div class="molten-details-wrapper">
+        <div class="row g-5 align-items-center">
+            
+            
+            <div class="col-12 col-md-5 col-lg-4 text-center text-md-start">
+                <div class="molten-poster-fallback mx-auto d-flex flex-column justify-content-between p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-molten-brand small fw-bold">MOLTEN</span>
+                        <span class="badge bg-dark border border-secondary text-danger" style="font-size: 0.7rem;">FILME</span>
+                    </div>
+                    
+                    <div class="my-auto text-center py-5">
+                        <i class="bi bi-play-circle-fill text-secondary opacity-25 display-1"></i>
+                    </div>
+
+                    <div class="text-start">
+                        <h4 class="fw-bold text-white text-truncate m-0" style="max-width: 260px;">@Model.Titulo</h4>
+                        <span class="text-gray large">Exclusivo MOLTEN Original</span>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="col-12 col-md-7 col-lg-8">
+                <div class="movie-info-panel">
+                    
+                    <!-- Selo/Selo Original -->
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="text-molten-brand fw-black tracking-widest small text-uppercase" style="font-size: 0.8rem; letter-spacing: 3px;">
+                            <i class="bi bi-shield-shaded me-1"></i> Original
+                        </span>
+                    </div>
+
+
+                    <h1 class="display-3 fw-bold text-white text-shadow-large mb-3">@Model.Titulo</h1>
+
+                
+                    <div class="d-flex flex-wrap align-items-center gap-3 text-secondary small mb-4">
+                        <span class="text-white fw-bold"><i class="bi bi-calendar-event me-1 text-muted"></i> @Model.DataAbertura.ToString("yyyy")</span>
+                    </div>
+
+                    
+                    <div class="mb-5">
+                        <h5 class="text-secondary fw-semibold text-uppercase tracking-wider small mb-2" style="letter-spacing: 1px;">Sinopse</h5>
+                        <p class="lead text-light lh-base" style="font-size: 1.1rem; color: #e1e1e1 !important;">
+                            @if (!string.IsNullOrEmpty(Model.Descricao))
+                            {
+                                @Model.Descricao
+                            }
+                            else
+                            {
+                                <em class="text-muted">Nenhuma sinopse disponível para este título até o momento.</em>
+                            }
+                        </p>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-3 border-top border-secondary pt-4">
+                        <a href="#" class="btn btn-molten-play btn-lg px-5 py-2.5 d-inline-flex align-items-center shadow">
+                            <i class="bi bi-play-fill fs-3 me-2"></i> Assistir agora
+                        </a>
+                        
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+

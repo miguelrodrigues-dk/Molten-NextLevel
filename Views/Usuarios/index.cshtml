@@ -1,0 +1,46 @@
+@model IEnumerable<HelpDeskMvc.Models.MoltenUsuario>
+
+@{
+    ViewData["Title"] = "Listagem de Usuários";
+}
+
+<!-- Adicionado bg-dark e text-white para remover o fundo branco -->
+<div class="container mt-4 p-4 bg-dark text-white rounded box-shadow">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-white">Usuários Cadastrados</h2>
+        <a asp-action="Create" class="btn btn-danger font-weight-bold">Cadastrar Novo Usuário +</a>
+    </div>
+    <hr class="border-secondary" />
+
+    <table class="table table-dark table-striped table-hover text-white">
+        <thead>
+            <tr class="text-danger">
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Plano</th>
+                <th>Status</th>
+                <th>Data de Cadastro</th>
+            </tr>
+        </thead>
+        <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@item.Nome</td>
+                    <td>@item.Email</td>
+                    <td><span class="badge bg-danger">@item.TipoPlano</span></td>
+                    <td><span class="badge bg-success">@item.StatusAssinatura</span></td>
+                    <td class="text-white">@item.DataCadastro.ToString("dd/MM/yyyy HH:mm")</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center text-white py-4">Nenhum usuário cadastrado.</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

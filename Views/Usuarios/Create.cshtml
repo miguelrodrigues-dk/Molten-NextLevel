@@ -1,0 +1,144 @@
+@model HelpDeskMvc.Models.MoltenUsuario
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOLTEN - Crie sua Conta</title>
+    <style>
+
+    /*Serve para mostrar os erros, quando não são colocados no cadastro*/
+        :root {
+            --bg-color: #141414;
+            --card-bg: #1c1c1c;
+            --primary-color: #ff4500; 
+            --text-color: #ffffff;
+            --text-muted: #474040;
+            --error-color: #ff3333;
+        }
+        /*Centralização*/
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        /*Modificções que fiz no Molten-CadAstro*/
+        .cadastro-container {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .logo {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        h2 { margin-bottom: 20px; font-size: 1.5rem; text-align: center; }
+        .form-group 
+        { 
+            margin-bottom: 20px;
+        }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            color: var(--text-muted); 
+            font-size: 0.9rem; 
+            }
+        
+        input, select {
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #333; 
+            border-radius: 4px;
+            background-color: #333; 
+            color: #fff; 
+            font-size: 1rem; 
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus { 
+            outline: none; 
+            border-color: var(--primary-color); 
+                color: #ffffff;
+            }
+        button {
+            width: 100%; 
+            padding: 14px; 
+            background-color: var(--primary-color);
+             color: white;
+            border: none; 
+            border-radius: 4px; 
+            font-size: 1rem; 
+            font-weight: bold; 
+            cursor: pointer;
+        }
+
+        button:hover { background-color: #e03d00; }
+        .erro-validacao { 
+            color: var(--error-color); 
+            font-size: 0.85rem; 
+            margin-top: 5px; 
+            display: block; 
+            }
+    </style>
+</head>
+<body>
+
+<div class="cadastro-container">
+    <div class="logo">MOLTEN</div>
+    <h2>Assine nosso Planos</h2>
+    
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <label>Nome Completo</label>
+            <input asp-for="Nome" placeholder="Seu nome" />
+            <span asp-validation-for="Nome" class="erro-validacao"></span>
+        </div>
+
+        <div class="form-group">
+            <label>E-mail</label>
+            <input asp-for="Email" type="email" placeholder="Molten@gmail.com" />
+            <span asp-validation-for="Email" class="erro-validacao"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Senha</label>
+            <input asp-for="Senha" type="password" placeholder="Mínimo 6 caracteres" />
+            <span asp-validation-for="Senha" class="erro-validacao"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Escolha seu Plano</label>
+            <select asp-for="TipoPlano">
+                <option value="Simples"> Simples  (1 Tela - Filmes Simples)</option>
+                <option value="Médio">Médio  (2 Telas - Acessa + Filmes)</option>
+                <option value="FULL HD">FULL HD  (3 Telas - FULL HD + todos os outros)</option>
+                <option value="MOLTEN">MOLTEN  (4 Telas - ALL/Tudo + Nível Netflix)</option>
+            </select>
+        </div>
+
+        <button type="submit">Começar Assinatura Molten</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,209 @@
+@model List<HelpDeskMvc.Models.Filme>
+
+@{
+    ViewData["Title"] = "Catálogo de Filmes da MOLTEN";
+}
+
+<style>
+    body {
+        background-color: #141414;
+        color: #ffffff;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .movie-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+    }
+    .movie-card {
+        background-color: #181818;
+        border-radius: 6px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #2f2f2f;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+   
+    .movie-card:hover {
+        transform: scale(1.04);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+        border-color: #444444;
+    }
+    
+    .movie-poster-placeholder {
+        background: linear-gradient(135deg, #222 0%, #111 100%);
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid #232323;
+        position: relative;
+    }
+    .movie-badge-id {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: rgba(0, 0, 0, 0.75);
+        color: #E50914;
+        font-weight: bold;
+        border: 1px solid #333;
+    }
+    .movie-body {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    .movie-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+        color: #fff;
+        line-height: 1.3;
+    }
+    .movie-description {
+        color: #999999;
+        font-size: 0.85rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: 15px;
+        flex-grow: 1;
+    }
+   
+    .form-control-molten {
+        background-color: #2a2a2a ;
+        border: 1px solid #404040 ;
+        color: #ffffff ;
+        border-radius: 4px;
+    }
+    .form-control-molten:focus {
+        border-color: #E50914 ;
+        box-shadow: 0 0 0 0.25rem rgba(229, 9, 20, 0.25) ;
+    }
+    
+    .btn-molten-red {
+        background-color: #E50914;
+        border: none;
+        color: white;
+        font-weight: bold;
+        padding: 10px 24px;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+    }
+    .btn-molten-red:hover {
+        background-color: #b80710;
+        color: white;
+    }
+    
+    .btn-molten-gray {
+        background-color: #333333;
+        color: #ffffff;
+        border: none;
+        font-weight: bold;
+        font-size: 0.85rem;
+        text-align: center;
+        padding: 8px 12px;
+        border-radius: 4px;
+        width: 100%;
+        transition: background-color 0.2s ease;
+    }
+    .btn-molten-gray:hover {
+        background-color: #444444;
+        color: #ffffff;
+    }
+    .status-dot {
+        font-size: 0.8rem;
+        color: #46d369;
+        font-weight: 600;
+    }
+</style>
+
+<div class="container mt-5 pb-5">
+
+  
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 pb-3">
+        <div>
+            <h1 class="fw-bold mb-1" style="letter-spacing: -1px;">
+                <span style="color: #E50914; font-weight: 900; letter-spacing: 1px;">MOLTEN</span> 
+                <span class="text-white fw-light">Séries e Filmes</span>
+            </h1>
+            <p class="text-secondary mb-0">
+                Veja os melhores filmes/series aqui
+            </p>
+        </div>
+
+    </div>
+
+    
+    <div class="p-3 mb-5" style="background-color: #1c1c1c; border-radius: 6px; border: 1px solid #fff8f8;">
+        <div class="row g-3">
+            <div class="col-md-8">
+                <input type="text"
+                       class="form-control form-control-molten text-dark"
+                       opacity="100%"
+                    <spam class=text-dark placeholder="Buscar por título no catálogo..." />
+            </div>
+            <div class="col-md-4">
+                <select class="form-select form-control-molten">
+                    <option>Filtrar por Categoria</option>
+                    <option>Nos Cinemas</option>
+                    <option>Já Sairam</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="movie-grid">
+        @foreach (var filme in Model)
+        {
+            <div class="movie-card">
+               
+                <div class="movie-poster-placeholder">
+                    <span class="badge movie-badge-id">#@filme.Id</span>
+                    <i class="bi bi-play-circle-fill text-secondary" style="font-size: 3rem; opacity: 0.4;"></i>
+                </div>
+
+                
+                <div class="movie-body">
+                    <div class="movie-title text-truncate" title="@filme.Titulo">
+                        @filme.Titulo
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="status-dot">
+                            ● @filme.Status
+                        </span>
+                        <small style="color: #9e3535; font-size: 0.75rem;">
+                            @filme.DataAbertura.ToString("yyyy")
+                        </small>
+                    </div>
+
+                    <div class="movie-description">
+                        @filme.Descricao
+                    </div>
+
+                 
+                    <a asp-controller="Filmes"
+                       asp-action="Detalhes"
+                       asp-route-id="@filme.Id"
+                       class="btn btn-molten-gray">
+                        Ver Detalhes
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+
+
+    <div class="mt-5 pt-3 border-top border-secondary text-end">
+        <span class="text-secondary fw-bold" style="font-size: 0.9rem;">
+            Total de Títulos Cadastrados: <span class="text-white">@Model.Count</span>
+        </span>
+    </div>
+</div>

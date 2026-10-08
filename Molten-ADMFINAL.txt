@@ -1,0 +1,16 @@
+Criar:
+
+-Login
+
+-Link Assinatura
+
+-Diferença entre admin(Aparece os botões de adicionar e Usuarios cadastrados) e 
+Comum(Só aparece os filmes e Detalhes)
+
+-Arrumar chamados para Filme
+
+-Arrumar fontes
+
+-Adicionar minha conta cadastrada no BD
+
++Adicionar Mais Coisas...
